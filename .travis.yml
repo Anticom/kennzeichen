@@ -4,7 +4,16 @@ php:
   - 5.3.3
   - 5.3
   - 5.4
+  - 5.5
 
-before_script: composer install -n
+before_script: composer install -n --prefer-source
 
-script: phpunit -c app
+script:
+    - php app/console doctrine:database:create
+    - php app/console doctrine:schema:create
+    - php app/console doctrine:fixtures:load --no-interaction
+#    - phpunit -v -c app/ --coverage-clover clover.xml --coverage-text
+
+#after_script:
+#    - wget https://scrutinizer-ci.com/ocular.phar
+#    - php ocular.phar code-coverage:upload --format=php-clover clover.xml

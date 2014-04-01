@@ -1,0 +1,31 @@
+index:
+  pattern: /
+  defaults: {_controller: AnticomKennzeichenBundle:Default:index}
+
+anticom_kennzeichen_search:
+  pattern: /search
+  defaults: {_controller: AnticomKennzeichenBundle:Search:search}
+
+anticom_kennzeichen_list:
+  pattern: /kennzeichen/list/{page}
+  defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:list}
+
+anticom_kennzeichen_show:
+  pattern: /kennzeichen/show/{id}
+  defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:show}
+
+anticom_kennzeichen_edit:
+  pattern: /kennzeichen/edit/{id}
+  defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:edit}
+
+anticom_kennzeichen_delete:
+  pattern: /kennzeichen/delete/{id}
+  defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:delete}
+
+anticom_kennzeichen_bundesland_list:
+  pattern: /bundesland/list
+  defaults: {_controller: AnticomKennzeichenBundle:Bundesland:list}
+
+anticom_kennzeichen_bundesland_show:
+  pattern: /bundesland/show/{name}
+  defaults: {_controller: AnticomKennzeichenBundle:Bundesland:show}

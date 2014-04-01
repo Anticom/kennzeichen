@@ -1,0 +1,7 @@
+parameters:
+#    anticom_kennzeichen.example.class: Anticom\KennzeichenBundle\Example
+
+services:
+#    anticom_kennzeichen.example:
+#        class: %anticom_kennzeichen.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

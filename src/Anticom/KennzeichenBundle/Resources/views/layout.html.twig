@@ -1,0 +1,98 @@
+{% import "AnticomKennzeichenBundle::_macros.html.twig" as tools %}
+<!DOCTYPE html>
+<html lang="de-DE">
+<head>
+    {% block meta %}
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% endblock %}
+    <title>{% block title %}Kennzeichenmanager{% endblock %}</title>
+    {% block stylesheets %}
+        {#Latest compiled and minified CSS#}
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        {#Optional theme#}
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+        {#jQuery ui theme#}
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+{% block body %}
+    <div class="container">
+        <div style="height: 20px;"></div>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                {#Brand and toggle get grouped for better mobile display#}
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav0-collapse">
+                        <span class="sr-only">Navigation umschalten</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ path('index') }}">Kennzeichenmanager</a>
+                </div>
+
+                {#region navbar collapse#}
+                <div class="collapse navbar-collapse" id="nav0-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{{ path('index') }}">Startseite</a></li>
+                        <li><a href="{{ path('anticom_kennzeichen_list') }}">Kennzeichen</a></li>
+                        <li><a href="{{ path('anticom_kennzeichen_bundesland_list') }}">Bundesland</a></li>
+                        <li><a href="{{ path('anticom_kennzeichen_search') }}">Detailsuche</a></li>
+                    </ul>
+                    <form class="navbar-form navbar-right" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+                {#endregion#}
+            </div>
+        </nav>
+
+        {# region flash messages #}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            {{ tools.alert(flashMessage) }}
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            {{ tools.alert(flashMessage, 'success') }}
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('warning') %}
+            {{ tools.alert(flashMessage, 'warning') }}
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('danger') %}
+            {{ tools.alert(flashMessage, 'error') }}
+        {% endfor %}
+        {# endregion #}
+
+        {#region content#}
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+        {#endregion#}
+
+        {#region footer#}
+        <div style="height: 75px;"></div>
+        <hr>
+        <div class="row">
+            <div class="col-md-12">
+                    <p class="text-muted">© 2014, All rights reserved</p>
+                </div>
+        </div>
+        {#endregion#}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {#jQuery (necessary for Bootstrap's JavaScript plugins)#}
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+
+    {#Latest compiled and minified JavaScript#}
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+{% endblock %}
+</body>
+</html>

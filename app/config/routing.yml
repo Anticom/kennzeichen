@@ -1,0 +1,4 @@
+anticom_kennzeichen:
+    resource: "@AnticomKennzeichenBundle/Resources/config/routing.yml"
+    prefix:   /
+
