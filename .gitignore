@@ -16,5 +16,5 @@ app/config/parameters.yml
 bin/*
 composer.phar
 
-#custom
+# Custom
 .idea/*
