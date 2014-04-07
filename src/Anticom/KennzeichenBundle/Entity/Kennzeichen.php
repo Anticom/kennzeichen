@@ -3,6 +3,7 @@
 namespace Anticom\KennzeichenBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Kennzeichen
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Kennzeichen
 {
+    #region params
     /**
      * @var integer
      *
@@ -34,15 +36,25 @@ class Kennzeichen
      * @ORM\Column(name="kreis", type="string", length=255)
      */
     private $kreis;
-	
-	/**
+
+    /**
      * @var Bundesland
      *
      * @ORM\ManyToOne(targetEntity="Bundesland", inversedBy="kennzeichen")
      * @ORM\JoinColumn(name="bundesland_id", referencedColumnName="id", onDelete="CASCADE")
      */
-	private $bundesland;
+    private $bundesland;
 
+    protected static $twig;
+    #endregion
+
+    #region constants
+    const WIKIPEDIA_API_URI_TEMPLATE = 'http://de.wikipedia.org/w/api.php?format=json&action=parse&page={{query}}&prop=text&section=0';
+    const WIKIPEDIA_URI_TEMPLATE     = '//de.wikipedia.org/wiki/{{query}}';
+    const MAPS_URI_TEMPLATE          = '';
+    #endregion
+
+    #region getters & setters
     /**
      * Set bundesland
      *
@@ -59,7 +71,7 @@ class Kennzeichen
     /**
      * Get bundesland
      *
-     * @return \Anticom\KennzeichenBundle\Entity\Bundesland 
+     * @return \Anticom\KennzeichenBundle\Entity\Bundesland
      */
     public function getBundesland()
     {
@@ -69,7 +81,7 @@ class Kennzeichen
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -92,7 +104,7 @@ class Kennzeichen
     /**
      * Get kuerzel
      *
-     * @return string 
+     * @return string
      */
     public function getKuerzel()
     {
@@ -115,10 +127,39 @@ class Kennzeichen
     /**
      * Get kreis
      *
-     * @return string 
+     * @return string
      */
     public function getKreis()
     {
         return $this->kreis;
     }
+    #endregion
+
+    #region auxiliaries
+    protected function renderStringTemplate($template, $context = [])
+    {
+        if (!self::$twig) {
+            self::$twig = new \Twig_Environment(new \Twig_Loader_String());
+        }
+        return self::$twig->render($template, $context);
+    }
+
+    public function getWikiIntro()
+    {
+        $wikiUri = $this->renderStringTemplate(self::WIKIPEDIA_API_URI_TEMPLATE, array('query' => $this->kreis));
+        $json    = file_get_contents($wikiUri);
+        $wiki    = json_decode($json, true);
+
+        $crawler = new Crawler();
+        $crawler->addHtmlContent($wiki['parse']['text']['*']);
+        $intro = $crawler->filter('p');
+        $html  = $intro->html();
+        return $html;
+    }
+
+    public function getWikiLink()
+    {
+        return $this->renderStringTemplate(self::WIKIPEDIA_URI_TEMPLATE, array('query' => $this->kreis));
+    }
+    #endregion
 }

@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class KennzeichenController extends Controller
 {
-    public function listAction($page = 1)
+    public function listAction($page)
     {
         //TODO add pagination
         /** @var Kennzeichen[] $kennzeichen */
@@ -35,7 +35,8 @@ class KennzeichenController extends Controller
         return $this->render(
             'AnticomKennzeichenBundle:Kennzeichen:show.html.twig',
             array(
-                'kennzeichen' => $kennzeichen
+                'kennzeichen' => $kennzeichen,
+                'wiki'        => $kennzeichen->getWikiIntro()
             )
         );
     }

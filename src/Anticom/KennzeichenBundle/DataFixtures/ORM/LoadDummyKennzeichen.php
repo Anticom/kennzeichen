@@ -13,6 +13,7 @@ use Anticom\KennzeichenBundle\Entity\Kennzeichen;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class LoadDummyKennzeichen extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -90,13 +91,18 @@ class LoadDummyKennzeichen extends AbstractFixture implements OrderedFixtureInte
 
     protected function loadKreise()
     {
+        $filename = __DIR__.DIRECTORY_SEPARATOR.'landkreise.json';
+        if(!file_exists($filename)) {
+            throw new IOException();
+        }
+
         static::$kreise = array_map(
             function ($e) {
                 preg_match('/^[a-zA-Z]+/', $e[1], $result);
                 return $result[0];
             },
             json_decode(
-                file_get_contents('landkreise.json'),
+                file_get_contents($filename),
                 true
             )
         );

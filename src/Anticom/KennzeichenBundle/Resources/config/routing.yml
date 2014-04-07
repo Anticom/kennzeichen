@@ -8,19 +8,27 @@ anticom_kennzeichen_search:
 
 anticom_kennzeichen_list:
   pattern: /kennzeichen/list/{page}
-  defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:list}
+  defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:list, page: 1}
+  requirements:
+    page:  \d+
 
 anticom_kennzeichen_show:
   pattern: /kennzeichen/show/{id}
   defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:show}
+  requirements:
+    id:  \d+
 
 anticom_kennzeichen_edit:
   pattern: /kennzeichen/edit/{id}
   defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:edit}
+  requirements:
+    id:  \d+
 
 anticom_kennzeichen_delete:
   pattern: /kennzeichen/delete/{id}
   defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:delete}
+  requirements:
+    id:  \d+
 
 anticom_kennzeichen_bundesland_list:
   pattern: /bundesland/list
@@ -29,3 +37,5 @@ anticom_kennzeichen_bundesland_list:
 anticom_kennzeichen_bundesland_show:
   pattern: /bundesland/show/{name}
   defaults: {_controller: AnticomKennzeichenBundle:Bundesland:show}
+#  requirements:
+#    id:  \d+

@@ -16,6 +16,11 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+
+            //custom 3rd party
+            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+
+            //own bundles
             new Anticom\KennzeichenBundle\AnticomKennzeichenBundle(),
         );
 
