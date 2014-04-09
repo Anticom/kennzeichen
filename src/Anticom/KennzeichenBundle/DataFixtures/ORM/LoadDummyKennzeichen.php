@@ -38,7 +38,7 @@ class LoadDummyKennzeichen extends AbstractFixture implements OrderedFixtureInte
             $kennzeichen
                 ->setBundesland($this->getBundeslandByName($kreis['bundesland']))
                 ->setKreis($kreis['kreis'])
-                ->setKuerzel(substr($kreis, 0, rand(1, 2)));
+                ->setKuerzel(substr($kreis['kreis'], 0, rand(1, 2)));
 
             $manager->persist($kennzeichen);
         }
@@ -67,7 +67,7 @@ class LoadDummyKennzeichen extends AbstractFixture implements OrderedFixtureInte
     {
         $filename = __DIR__ . DIRECTORY_SEPARATOR . 'landkreise.json';
         if (!file_exists($filename)) {
-            throw new IOException();
+            throw new IOException('Unable to find file: '.$filename);
         }
 
         static::$kreise = array();

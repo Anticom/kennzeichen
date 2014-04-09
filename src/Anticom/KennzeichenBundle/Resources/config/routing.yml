@@ -30,6 +30,18 @@ anticom_kennzeichen_delete:
   requirements:
     id:  \d+
 
+#EXPORT / IMPORT
+anticom_kennzeichen_export:
+  pattern: /kennzeichen/export/{_format}
+  defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:export, _format: xml}
+  requirements:
+    _format:  xml|json
+
+
+anticom_kennzeichen_import:
+  pattern: /kennzeichen/import
+  defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:import}
+
 anticom_kennzeichen_bundesland_list:
   pattern: /bundesland/list
   defaults: {_controller: AnticomKennzeichenBundle:Bundesland:list}

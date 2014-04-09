@@ -11,6 +11,7 @@ namespace Anticom\KennzeichenBundle\Controller;
 use Anticom\KennzeichenBundle\Entity\Kennzeichen;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class KennzeichenController extends Controller
 {
@@ -65,6 +66,20 @@ class KennzeichenController extends Controller
                 'kennzeichen' => $kennzeichen
             )
         );
+    }
+
+    public function exportAction($format) {
+        $data = $this->getKennzeichenRepo()->findAll();
+
+        $serializer = $this->get('jms_serializer');
+        $serialized = $serializer->serialize($data, $format);
+        return new Response($serialized);
+    }
+
+    public function importAction() {
+        //TODO add form
+
+        return $this->render('AnticomKennzeichenBundle:Kennzeichen:import.html.twig');
     }
 
     /**

@@ -19,6 +19,7 @@ class AppKernel extends Kernel
 
             //custom 3rd party
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            //new JMS\SerializerBundle\JMSSerializerBundle(),
 
             //own bundles
             new Anticom\KennzeichenBundle\AnticomKennzeichenBundle(),
