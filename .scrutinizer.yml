@@ -1,8 +1,8 @@
 filter:
     paths:
-        - src/Anticom/ShowcaseBundle/*
+        - src/Anticom/KennzeichenBundle/*
     excluded_paths:
-        - src/Anticom/ShowcaseBundle/Tests/*
+        - src/Anticom/KennzeichenBundle/Tests/*
 before_commands:
     - composer install -n --prefer-source
 tools:
