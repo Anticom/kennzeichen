@@ -18,8 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
             //custom 3rd party
-            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-            //new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
 
             //own bundles
             new Anticom\KennzeichenBundle\AnticomKennzeichenBundle(),

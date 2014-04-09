@@ -9,6 +9,7 @@
 namespace Anticom\KennzeichenBundle\Controller;
 
 use Anticom\KennzeichenBundle\Entity\Kennzeichen;
+use Anticom\KennzeichenBundle\Entity\KennzeichenList;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,11 +69,13 @@ class KennzeichenController extends Controller
         );
     }
 
-    public function exportAction($format) {
-        $data = $this->getKennzeichenRepo()->findAll();
+    public function exportAction($_format) {
+        $kennzeichen = $this->getKennzeichenRepo()->findAll();
+        $kennzeichen = array_slice($kennzeichen, 0, 2);
+        $data = new KennzeichenList($kennzeichen);
 
         $serializer = $this->get('jms_serializer');
-        $serialized = $serializer->serialize($data, $format);
+        $serialized = $serializer->serialize($data, $_format);
         return new Response($serialized);
     }
 

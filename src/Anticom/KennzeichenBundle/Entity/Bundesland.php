@@ -3,12 +3,16 @@
 namespace Anticom\KennzeichenBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Bundesland
  *
  * @ORM\Table()
  * @ORM\Entity
+ *
+ * @Serializer\ExclusionPolicy("none")
+ * @Serializer\XmlRoot("bundesland")
  */
 class Bundesland
 {
@@ -18,6 +22,8 @@ class Bundesland
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\XmlAttribute
      */
     private $id;
 
@@ -31,6 +37,8 @@ class Bundesland
     /**
      * @var Kennzeichen[]
      * @ORM\OneToMany(targetEntity="Kennzeichen", mappedBy="bundesland")
+     *
+     * @Serializer\Exclude
      */
 	private $kennzeichen;
 

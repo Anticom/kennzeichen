@@ -3,6 +3,7 @@
 namespace Anticom\KennzeichenBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
@@ -10,6 +11,9 @@ use Symfony\Component\DomCrawler\Crawler;
  *
  * @ORM\Table()
  * @ORM\Entity
+ *
+ * @Serializer\ExclusionPolicy("none")
+ * @Serializer\XmlRoot("kennzeichen")
  */
 class Kennzeichen
 {
@@ -20,6 +24,8 @@ class Kennzeichen
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\XmlAttribute
      */
     private $id;
 
@@ -42,9 +48,14 @@ class Kennzeichen
      *
      * @ORM\ManyToOne(targetEntity="Bundesland", inversedBy="kennzeichen")
      * @ORM\JoinColumn(name="bundesland_id", referencedColumnName="id", onDelete="CASCADE")
+     *
+     * @Serializer\Type("Anticom\KennzeichenBundle\Entity\Bundesland")
      */
     private $bundesland;
 
+    /**
+     * @Serializer\Exclude
+     */
     protected static $twig;
     #endregion
 
