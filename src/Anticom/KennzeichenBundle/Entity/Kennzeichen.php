@@ -136,7 +136,7 @@ class Kennzeichen
     #endregion
 
     #region auxiliaries
-    protected function renderStringTemplate($template, $context = [])
+    protected function renderStringTemplate($template, $context = array())
     {
         if (!self::$twig) {
             self::$twig = new \Twig_Environment(new \Twig_Loader_String());
