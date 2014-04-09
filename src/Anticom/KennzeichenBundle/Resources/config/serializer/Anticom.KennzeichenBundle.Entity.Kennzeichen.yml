@@ -1,0 +1,10 @@
+Anticom\KennzeichenBundle\Entity\Kennzeichen:
+  exclusion_policy: NONE
+  xml_root_name: Kennzeichen
+  properties:
+    id:
+      xml_attribute: true
+    bundesland:
+      type: Anticom\KennzeichenBundle\Entity\Bundesland
+    twig:
+      exclude: true

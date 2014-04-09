@@ -29,25 +29,19 @@ class LoadDummyKennzeichen extends AbstractFixture implements OrderedFixtureInte
      */
     public function load(ObjectManager $manager)
     {
-        //config
-        $ammount = 50;
-
         //loading
         $this->manager = $manager;
         $this->loadKreise();
 
-        $kreis = $this->getRandomKreis();
-
-        for($i = 0; $i < $ammount; $i++) {
+        foreach(static::$kreise as $kreis) {
             $kennzeichen = new Kennzeichen();
             $kennzeichen
-                ->setBundesland($this->getRandomBundesland())
-                ->setKreis($kreis)
+                ->setBundesland($this->getBundeslandByName($kreis['bundesland']))
+                ->setKreis($kreis['kreis'])
                 ->setKuerzel(substr($kreis, 0, rand(1, 2)));
 
             $manager->persist($kennzeichen);
         }
-
 
         $manager->flush();
     }
@@ -61,56 +55,29 @@ class LoadDummyKennzeichen extends AbstractFixture implements OrderedFixtureInte
     }
 
     /**
+     * @param $name
      * @return Bundesland
      */
-    protected function getRandomBundesland()
+    protected function getBundeslandByName($name)
     {
-        $bundeslaender = array(
-            'Baden-Württemberg',
-            'Bayern',
-            'Berlin',
-            'Brandenburg',
-            'Bremen',
-            'Hamburg',
-            'Hessen',
-            'Mecklenburg-Vorpommern',
-            'Niedersachsen',
-            'Nordrhein-Westfalen',
-            'Rheinland-Pfalz',
-            'Saarland',
-            'Sachsen',
-            'Sachsen-Anhalt',
-            'Schleswig-Holstein',
-            'Thüringen',
-        );
-        $max           = count($bundeslaender) - 1;
-        $chosen        = $bundeslaender[rand(0, $max)];
-
-        return $this->manager->getRepository('AnticomKennzeichenBundle:Bundesland')->findOneBy(array('name' => $chosen));
+        return $this->manager->getRepository('AnticomKennzeichenBundle:Bundesland')->findOneBy(array('name' => $name));
     }
 
     protected function loadKreise()
     {
-        $filename = __DIR__.DIRECTORY_SEPARATOR.'landkreise.json';
-        if(!file_exists($filename)) {
+        $filename = __DIR__ . DIRECTORY_SEPARATOR . 'landkreise.json';
+        if (!file_exists($filename)) {
             throw new IOException();
         }
 
-        static::$kreise = array_map(
-            function ($e) {
-                preg_match('/^[a-zA-Z]+/', $e[1], $result);
-                return $result[0];
-            },
-            json_decode(
-                file_get_contents($filename),
-                true
-            )
-        );
-    }
+        static::$kreise = array();
 
-    protected function getRandomKreis()
-    {
-        $max = count(static::$kreise) - 1;
-        return static::$kreise[rand(0, $max)];
+        $landkreise = json_decode(file_get_contents($filename), true);
+        foreach ($landkreise as $landkreis) {
+            static::$kreise[] = array(
+                'kreis'         => $landkreis[3],
+                'bundesland'    => $landkreis[2]
+            );
+        }
     }
 } 
