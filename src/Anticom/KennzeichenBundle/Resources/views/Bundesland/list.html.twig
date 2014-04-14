@@ -1,0 +1,34 @@
+{% extends 'AnticomKennzeichenBundle::layout.html.twig' %}
+
+{% block content %}
+    <ol class="breadcrumb">
+        <li class="active">Bundesland</li>
+    </ol>
+
+    <table class="table table-condensed table-hover">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th style="width: 22px;"></th>
+            <th style="width: 22px;"></th>
+        </tr>
+        {% for bundesland in bundeslaender %}
+            <tr>
+                <td>{{ bundesland.id }}</td>
+                <td>
+                    <a href="{{ path('anticom_kennzeichen_bundesland_show', {'name': bundesland.name}) }}">{{ bundesland.name }}</a>
+                </td>
+                <td>
+                    <a href="{{ path('anticom_kennzeichen_bundesland_edit', {'id': bundesland.id}) }}" class="btn btn-sm btn-default">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path('anticom_kennzeichen_bundesland_delete', {'id': bundesland.id}) }}" class="btn btn-sm btn-danger">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

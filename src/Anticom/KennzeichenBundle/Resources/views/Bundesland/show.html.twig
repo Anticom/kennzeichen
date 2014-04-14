@@ -1,0 +1,69 @@
+{% extends 'AnticomKennzeichenBundle::layout.html.twig' %}
+
+{% block content %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('anticom_kennzeichen_bundesland_list') }}">Bundesland</a></li>
+        <li class="active">Details</li>
+    </ol>
+
+    <table class="table table-condensed">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th style="width: 22px;"></th>
+            <th style="width: 22px;"></th>
+        </tr>
+        <tr>
+            <td>{{ bundesland.id }}</td>
+            <td>
+                <a href="{{ path('anticom_kennzeichen_bundesland_show', {'name': bundesland.name}) }}">{{ bundesland.name }}</a>
+            </td>
+            <td>
+                <a href="{{ path('anticom_kennzeichen_bundesland_edit', {'id': bundesland.id}) }}" class="btn btn-sm btn-default">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+            </td>
+            <td>
+                <a href="{{ path('anticom_kennzeichen_bundesland_delete', {'id': bundesland.id}) }}" class="btn btn-sm btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Zugehörige Kennzeichen
+        </div>
+        <div class="panel-body">
+            <table class="table table-condensed table-hover">
+                <tr>
+                    <th>#</th>
+                    <th>Kürzel</th>
+                    <th>Kreis</th>
+                    <th style="width: 22px;"></th>
+                    <th style="width: 22px;"></th>
+                </tr>
+                {% for k in bundesland.kennzeichen %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('anticom_kennzeichen_show', {'id': k.id}) }}">{{ k.id }}</a>
+                        </td>
+                        <td>{{ k.kuerzel }}</td>
+                        <td>{{ k.kreis }}</td>
+                        <td>
+                            <a href="{{ path('anticom_kennzeichen_edit', {'id': k.id}) }}" class="btn btn-sm btn-default">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('anticom_kennzeichen_delete', {'id': k.id}) }}" class="btn btn-sm btn-danger">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

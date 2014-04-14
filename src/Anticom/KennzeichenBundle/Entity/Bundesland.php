@@ -2,6 +2,7 @@
 
 namespace Anticom\KennzeichenBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -47,16 +48,16 @@ class Bundesland
      */
     public function __construct()
     {
-        $this->kennzeichen = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->kennzeichen = new ArrayCollection();
     }
 
     /**
      * Add kennzeichen
      *
-     * @param \Anticom\KennzeichenBundle\Entity\Kennzeichen $kennzeichen
+     * @param Kennzeichen $kennzeichen
      * @return Bundesland
      */
-    public function addKennzeichen(\Anticom\KennzeichenBundle\Entity\Kennzeichen $kennzeichen)
+    public function addKennzeichen(Kennzeichen $kennzeichen)
     {
         $this->kennzeichen[] = $kennzeichen;
 
@@ -66,9 +67,9 @@ class Bundesland
     /**
      * Remove kennzeichen
      *
-     * @param \Anticom\KennzeichenBundle\Entity\Kennzeichen $kennzeichen
+     * @param Kennzeichen $kennzeichen
      */
-    public function removeKennzeichen(\Anticom\KennzeichenBundle\Entity\Kennzeichen $kennzeichen)
+    public function removeKennzeichen(Kennzeichen $kennzeichen)
     {
         $this->kennzeichen->removeElement($kennzeichen);
     }

@@ -3,9 +3,14 @@ index:
   defaults: {_controller: AnticomKennzeichenBundle:Default:index}
 
 anticom_kennzeichen_search:
-  pattern: /search
-  defaults: {_controller: AnticomKennzeichenBundle:Search:search}
+  pattern: /search/{query}
+  defaults: {_controller: AnticomKennzeichenBundle:Search:search, query: ~}
 
+anticom_kennzeichen_ajax_search:
+  pattern: /ajax/search
+  defaults: {_controller: AnticomKennzeichenBundle:Search:ajaxSearch}
+
+#Kennzeichen
 anticom_kennzeichen_list:
   pattern: /kennzeichen/list/{page}
   defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:list, page: 1}
@@ -30,6 +35,29 @@ anticom_kennzeichen_delete:
   requirements:
     id:  \d+
 
+#Bundesland
+anticom_kennzeichen_bundesland_list:
+  pattern: /bundesland/list
+  defaults: {_controller: AnticomKennzeichenBundle:Bundesland:list}
+
+anticom_kennzeichen_bundesland_show:
+  pattern: /bundesland/show/{name}
+  defaults: {_controller: AnticomKennzeichenBundle:Bundesland:show}
+#  requirements:
+#    id:  \d+
+
+anticom_kennzeichen_bundesland_edit:
+  pattern: /bundesland/edit/{id}
+  defaults: {_controller: AnticomKennzeichenBundle:Bundesland:edit}
+  requirements:
+    id:  \d+
+
+anticom_kennzeichen_bundesland_delete:
+  pattern: /bundesland/delete/{id}
+  defaults: {_controller: AnticomKennzeichenBundle:Bundesland:delete}
+  requirements:
+    id:  \d+
+
 #EXPORT / IMPORT
 anticom_kennzeichen_export:
   pattern: /kennzeichen/export/{_format}
@@ -41,13 +69,3 @@ anticom_kennzeichen_export:
 anticom_kennzeichen_import:
   pattern: /kennzeichen/import
   defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:import}
-
-anticom_kennzeichen_bundesland_list:
-  pattern: /bundesland/list
-  defaults: {_controller: AnticomKennzeichenBundle:Bundesland:list}
-
-anticom_kennzeichen_bundesland_show:
-  pattern: /bundesland/show/{name}
-  defaults: {_controller: AnticomKennzeichenBundle:Bundesland:show}
-#  requirements:
-#    id:  \d+

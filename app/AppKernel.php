@@ -22,7 +22,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
 
             //own bundles
-            new Anticom\KennzeichenBundle\AnticomKennzeichenBundle(),
+            new Anticom\KennzeichenBundle\AnticomKennzeichenBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -1,0 +1,9 @@
+{% extends 'AnticomKennzeichenBundle::layout.html.twig' %}
+
+{% block content %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('anticom_kennzeichen_bundesland_list') }}">Bundesland</a></li>
+        <li><a href="{{ path('anticom_kennzeichen_bundesland_show', {'name' : bundesland.name}) }}">Details</a></li>
+        <li class="active">Löschen</li>
+    </ol>
+{% endblock %}
