@@ -6,4 +6,8 @@
         <li><a href="{{ path('anticom_kennzeichen_show', {'id' : kennzeichen.id}) }}">Details</a></li>
         <li class="active">Bearbeiten</li>
     </ol>
+
+    <div>
+        {{ form(form) }}
+    </div>
 {% endblock %}

@@ -6,4 +6,23 @@
         <li><a href="{{ path('anticom_kennzeichen_show', {'id' : kennzeichen.id}) }}">Details</a></li>
         <li class="active">Löschen</li>
     </ol>
+
+    <div>
+        <h2>Sind Sie sicher, dass Sie folgenden Eintrag löschen möchten</h2>
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <ul class="list-unstyled">
+                    <li># {{ kennzeichen.id }}</li>
+                    <li>{{ kennzeichen.kuerzel }} - {{ kennzeichen.kreis }}</li>
+                    <li>({{ kennzeichen.bundesland.name }})</li>
+                </ul>
+            </div>
+        </div>
+
+        {{ form_start(form) }}
+            {{ form_widget(form.submit) }}
+            <a class="btn btn-default" href="{{ path('anticom_kennzeichen_list') }}">Abbrechen</a>
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

@@ -2,35 +2,35 @@ Anticom\KennzeichenBundle\Entity\Bundesland:
   properties:
     name:
       - NotNull:
-        message: "Der Name darf nicht leer sein"
+          message: "Der Name darf nicht leer sein"
       - NotBlank:
-        message: "Der Name darf nicht leer sein"
+          message: "Der Name darf nicht leer sein"
       - Length:
-        min: 5
-        minMessage: "Der Name muss mindestens 3 Zeichen lang sein"
+          min: 5
+          minMessage: "Der Name muss mindestens 3 Zeichen lang sein"
 
 Anticom\KennzeichenBundle\Entity\Kennzeichen:
   properties:
     kuerzel:
       - NotNull:
-        message: "Das Kürzel darf nicht leer sein"
+          message: "Das Kürzel darf nicht leer sein"
       - NotBlank:
-        message: "Das Kürzel darf nicht leer sein"
+          message: "Das Kürzel darf nicht leer sein"
       - Length:
-        min: 1
-        max: 3
-        minMessage: "Das Kürzel muss mindestens 1 Zeichen lang sein"
-        maxMessage: "Das Kürzel darf maximal 3 Zeichen lang sein"
+          min: 1
+          max: 3
+          minMessage: "Das Kürzel muss mindestens 1 Zeichen lang sein"
+          maxMessage: "Das Kürzel darf maximal 3 Zeichen lang sein"
     kreis:
       - NotNull:
-        message: "Der Kreis darf nicht leer sein"
+          message: "Der Kreis darf nicht leer sein"
       - NotBlank:
-        message: "Der Kreis darf nicht leer sein"
+          message: "Der Kreis darf nicht leer sein"
       - Length:
-        min: 3
-        minMessage: "Der Kreis muss mindestens 3 Zeichen lang sein"
+          min: 3
+          minMessage: "Der Kreis muss mindestens 3 Zeichen lang sein"
     bundesland:
       - NotNull:
-        message: "Das Bundesland darf nicht leer sein"
+          message: "Das Bundesland darf nicht leer sein"
       - NotBlank:
-        message: "Das Bundesland darf nicht leer sein"
+          message: "Das Bundesland darf nicht leer sein"

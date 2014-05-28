@@ -9,9 +9,10 @@
 namespace Anticom\KennzeichenBundle\Controller;
 
 use Anticom\KennzeichenBundle\Entity\Kennzeichen;
-use Anticom\KennzeichenBundle\Entity\KennzeichenList;
+use Anticom\KennzeichenBundle\Form\KennzeichenType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class KennzeichenController extends Controller
@@ -44,42 +45,78 @@ class KennzeichenController extends Controller
     }
 
     /** @ParamConverter("kennzeichen", class="AnticomKennzeichenBundle:Kennzeichen") */
-    public function editAction(Kennzeichen $kennzeichen)
+    public function editAction(Request $request, Kennzeichen $kennzeichen)
     {
-        //TODO add form
+        $form = $this->createForm(new KennzeichenType(), $kennzeichen);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($kennzeichen);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'Die Änderungen wurden erfolgreich Gespeichert!');
+            return $this->redirect($this->generateUrl('anticom_kennzeichen_list'));
+        }
 
         return $this->render(
             'AnticomKennzeichenBundle:Kennzeichen:edit.html.twig',
             array(
-                'kennzeichen' => $kennzeichen
+                'kennzeichen' => $kennzeichen,
+                'form'        => $form->createView()
             )
         );
     }
 
     /** @ParamConverter("kennzeichen", class="AnticomKennzeichenBundle:Kennzeichen") */
-    public function deleteAction(Kennzeichen $kennzeichen)
+    public function deleteAction(Request $request, Kennzeichen $kennzeichen)
     {
-        //TODO add form
+        $form = $this->createFormBuilder($kennzeichen)
+            ->add(
+                'submit',
+                'submit',
+                array(
+                    'label' => 'Bestätigen',
+                    'attr'  => array(
+                        'class' => 'btn btn-primary'
+                    )
+                )
+            )
+            ->getForm();
+
+        $form->handleRequest($request);
+        if($form->isValid()) {
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($kennzeichen);
+            $em->remove($kennzeichen);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'Das Kennzeichen wurde erfoglreich gelöscht!');
+            return $this->redirect($this->generateUrl('anticom_kennzeichen_list'));
+        }
 
         return $this->render(
             'AnticomKennzeichenBundle:Kennzeichen:delete.html.twig',
             array(
-                'kennzeichen' => $kennzeichen
+                'kennzeichen' => $kennzeichen,
+                'form'        => $form->createView()
             )
         );
     }
 
-    public function exportAction($_format) {
+    public function exportAction($_format)
+    {
         $kennzeichen = $this->getKennzeichenRepo()->findAll();
-        $kennzeichen = array_slice($kennzeichen, 0, 2);
-        $data = new KennzeichenList($kennzeichen);
+        //$data        = new KennzeichenList($kennzeichen);
 
         $serializer = $this->get('jms_serializer');
-        $serialized = $serializer->serialize($data, $_format);
+        $serialized = $serializer->serialize($kennzeichen, $_format);
+
         return new Response($serialized);
     }
 
-    public function importAction() {
+    public function importAction()
+    {
         //TODO add form
 
         return $this->render('AnticomKennzeichenBundle:Kennzeichen:import.html.twig');
@@ -93,6 +130,7 @@ class KennzeichenController extends Controller
         /** @var \Doctrine\ORM\EntityManager $em */
         $em   = $this->get('doctrine')->getManager();
         $repo = $em->getRepository('AnticomKennzeichenBundle:Kennzeichen');
+
         return $repo;
     }
 }

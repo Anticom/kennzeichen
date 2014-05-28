@@ -60,8 +60,9 @@ class Kennzeichen
     #endregion
 
     #region constants
-    const WIKIPEDIA_API_URI_TEMPLATE = 'http://de.wikipedia.org/w/api.php?format=json&action=parse&page={{query}}&prop=text&section=0';
+    const WIKIPEDIA_BASE             = 'http://de.wikipedia.org/wiki/';
     const WIKIPEDIA_URI_TEMPLATE     = '//de.wikipedia.org/wiki/{{query}}';
+    const WIKIPEDIA_API_URI_TEMPLATE = 'http://de.wikipedia.org/w/api.php?format=json&action=parse&page={{query}}&prop=text&section=0';
     const MAPS_URI_TEMPLATE          = '';
     #endregion
 
@@ -161,10 +162,27 @@ class Kennzeichen
         $json    = file_get_contents($wikiUri);
         $wiki    = json_decode($json, true);
 
-        $crawler = new Crawler();
-        $crawler->addHtmlContent($wiki['parse']['text']['*']);
-        $intro = $crawler->filter('p');
-        $html  = $intro->html();
+        $html = 'Fehler beim Abrufen des Wikipedia Artikels';
+        $crawler = new Crawler(null, self::WIKIPEDIA_BASE);
+        if(isset($wiki['parse']['text']['*'])) {
+            $crawler->addHtmlContent($wiki['parse']['text']['*']);
+            $intro = $crawler->filter('p');
+
+            //rewrite all links
+            /*
+            $prefix = self::WIKIPEDIA_BASE;
+            foreach($intro->links() as $link) {
+                $linkNode = $link->getNode();
+                $href = $linkNode->getAttribute('href');
+
+                $linkNode->getAttributeNode('href')->value = $prefix . $href;
+                //$link->setAttributeNode(new \DOMAttr('rel', 'nofollow'));
+                $linkNode->setAttributeNode(new \DOMAttr('target', '_blank'));
+            }
+            */
+
+            $html  = $intro->html();
+        }
         return $html;
     }
 

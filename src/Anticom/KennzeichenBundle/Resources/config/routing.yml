@@ -63,9 +63,11 @@ anticom_kennzeichen_export:
   pattern: /kennzeichen/export/{_format}
   defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:export, _format: xml}
   requirements:
-    _format:  xml|json
+    _format:  xml|json|yml
 
 
 anticom_kennzeichen_import:
-  pattern: /kennzeichen/import
-  defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:import}
+  pattern: /kennzeichen/import/{_format}
+  defaults: {_controller: AnticomKennzeichenBundle:Kennzeichen:import, _format: xml}
+  requirements:
+      _format:  xml|json|yml

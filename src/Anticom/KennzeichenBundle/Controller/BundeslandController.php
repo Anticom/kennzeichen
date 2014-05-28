@@ -9,6 +9,8 @@
 namespace Anticom\KennzeichenBundle\Controller;
 
 use Anticom\KennzeichenBundle\Entity\Bundesland;
+use Anticom\KennzeichenBundle\Form\BundeslandType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BundeslandController extends Controller
@@ -37,22 +39,62 @@ class BundeslandController extends Controller
         );
     }
 
-    public function editAction(Bundesland $bundesland)
+    public function editAction(Request $request, Bundesland $bundesland)
     {
+        $form = $this->createForm(new BundeslandType(), $bundesland);
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($bundesland);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'Die Änderungen wurden erfolgreich Gespeichert!');
+
+            return $this->redirect($this->generateUrl('anticom_kennzeichen_bundesland_list'));
+        }
+
         return $this->render(
             'AnticomKennzeichenBundle:Bundesland:edit.html.twig',
             array(
-                'bundesland' => $bundesland
+                'bundesland' => $bundesland,
+                'form'       => $form->createView()
             )
         );
     }
 
-    public function deleteAction(Bundesland $bundesland)
+    public function deleteAction(Request $request, Bundesland $bundesland)
     {
+        $form = $this->createFormBuilder($bundesland)
+            ->add(
+                'submit',
+                'submit',
+                array(
+                    'label' => 'Bestätigen',
+                    'attr'  => array(
+                        'class' => 'btn btn-primary'
+                    )
+                )
+            )
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($bundesland);
+            $em->remove($bundesland);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('success', 'Das Bundesland wurde erfoglreich gelöscht!');
+
+            return $this->redirect($this->generateUrl('anticom_kennzeichen_bundesland_list'));
+        }
+
         return $this->render(
             'AnticomKennzeichenBundle:Bundesland:delete.html.twig',
             array(
-                'bundesland' => $bundesland
+                'bundesland' => $bundesland,
+                'form'       => $form->createView()
             )
         );
     }
@@ -65,6 +107,7 @@ class BundeslandController extends Controller
         /** @var \Doctrine\ORM\EntityManager $em */
         $em   = $this->get('doctrine')->getManager();
         $repo = $em->getRepository('AnticomKennzeichenBundle:Bundesland');
+
         return $repo;
     }
 } 
