@@ -24,7 +24,7 @@ class SearchController extends Controller
         return $this->render(
             'AnticomKennzeichenBundle:Search:search.html.twig',
             array(
-                'kennzeichen' = $kennzeichen
+                'kennzeichen' => $kennzeichen
             )
         );
     }
