@@ -18,12 +18,13 @@ class SearchController extends Controller
 {
     public function searchAction(Request $request)
     {
-        $search = $request->query->get('query');
+        $search      = $request->query->get('query');
         $kennzeichen = $this->doSearch($search);
 
         return $this->render(
             'AnticomKennzeichenBundle:Search:search.html.twig',
             array(
+                'request'     => $request,
                 'kennzeichen' => $kennzeichen
             )
         );
@@ -31,7 +32,7 @@ class SearchController extends Controller
 
     public function ajaxSearchAction(Request $request)
     {
-        $search = $request->query->get('query');
+        $search      = $request->query->get('query');
         $kennzeichen = $this->doSearch($search);
 
         //serialize:
@@ -49,7 +50,7 @@ class SearchController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $searchTerm = '%' . $searchTerm . '%';
-            $dql        = 'SELECT k FROM AnticomKennzeichenBundle:Kennzeichen k JOIN k.bundesland b WHERE k.id LIKE :query OR k.kuerzel LIKE :query OR k.kreis LIKE :query OR b.name LIKE :query';
+            $dql        = 'SELECT k FROM AnticomKennzeichenBundle:Kennzeichen k JOIN k.bundesland b WHERE k.id LIKE :query OR k.kuerzel LIKE :query OR k.kreis LIKE :query OR b.name LIKE :query ORDER BY k.kuerzel, k.id';
             $searchTerm = $em->createQuery($dql)
                 ->setParameter('query', $searchTerm);
 

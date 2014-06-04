@@ -1,5 +1,49 @@
 {% extends '@AnticomKennzeichen/layout.html.twig' %}
 
 {% block content %}
-    {{ dump(kennzeichen) }}
+    <ol class="breadcrumb">
+        <li class="active">Suche</li>
+    </ol>
+
+    {% if kennzeichen is not empty %}
+        <table class="table table-condensed table-hover">
+            <tr>
+                <th>#</th>
+                <th>Kürzel</th>
+                <th>Kreis</th>
+                <th>Bundesland</th>
+                <th style="width: 22px;"></th>
+                <th style="width: 22px;"></th>
+            </tr>
+            {% for k in kennzeichen %}
+                <tr>
+                    <td>
+                        <a href="{{ path('anticom_kennzeichen_show', {'id': k.id}) }}">{{ k.id }}</a>
+                    </td>
+                    <td>{{ k.kuerzel }}</td>
+                    <td>{{ k.kreis }}</td>
+                    <td>
+                        <a href="{{ path('anticom_kennzeichen_bundesland_show', {'name': k.bundesland.name}) }}">
+                            {{ k.bundesland.name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('anticom_kennzeichen_edit', {'id': k.id}) }}" class="btn btn-sm btn-default">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('anticom_kennzeichen_delete', {'id': k.id}) }}" class="btn btn-sm btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            Zu Ihrer Suche wurden leider keine Ergebnisse gefunden.
+        </div>
+    {% endif %}
 {% endblock content %}

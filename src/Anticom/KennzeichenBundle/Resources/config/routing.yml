@@ -3,8 +3,8 @@ index:
   defaults: {_controller: AnticomKennzeichenBundle:Default:index}
 
 anticom_kennzeichen_search:
-  pattern: /search/{query}
-  defaults: {_controller: AnticomKennzeichenBundle:Search:search, query: ~}
+  pattern: /search
+  defaults: {_controller: AnticomKennzeichenBundle:Search:search}
 
 anticom_kennzeichen_ajax_search:
   pattern: /ajax/search
